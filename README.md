@@ -1,31 +1,40 @@
-# Minimi agent — planning repository
+# Minimi agent
 
-Status: PROPOSED — implementation has not started. Prepared 12 November 2026.
+A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives and scoped original-history storage (implementation chunks 00–03). It is an incremental checkpoint, not a completed chat agent or final submission.
 
-Build a fast conversational agent that recovers what was asked and answered, retains the evidence behind recommendations, and rechecks comparable current facts without inventing history or changes.
+## Run locally
 
-## Read these documents
+Use Node 24 (the tested installation is 24.22.3).
 
-1. [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md): current version 0.4 end-to-end plan, reduced scope, sequencing and acceptance gates.
-2. [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md): paper walkthrough, 15 design failure conditions, removed features and remaining gaps.
-3. [EVALUATION_PLAN.md](EVALUATION_PLAN.md): evaluation methods; version 0.4 scope corrections in section 9 take precedence.
-4. [DECISIONS.md](DECISIONS.md): current choices, unresolved pre-build inputs and user approval gate.
-5. [FEATURE_SELECTION.md](FEATURE_SELECTION.md) and [IMPLEMENTATION_AUDIT.md](IMPLEMENTATION_AUDIT.md): source evidence and reference influences; not a mandatory feature list.
-6. [REPOSITORY_REVIEW.md](REPOSITORY_REVIEW.md) and [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): README research and acquisition inventory.
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-Earlier design context: [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md), [CHAT_BOARD_PLAN.md](CHAT_BOARD_PLAN.md), [CONTRACTS_AND_BACKLOG.md](CONTRACTS_AND_BACKLOG.md) and [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Their scope is superseded by version 0.4 where it differs. Planned charts, sliders, standalone dashboard and general memory editing are not first-submission requirements.
+Open http://localhost:5173. API readiness is at http://127.0.0.1:3000/api/readiness. No credentials are needed for this checkpoint. Configuration examples contain blank keys; never commit populated secrets.
 
-## Current state
+## Implemented
 
-- Local repository: Ubuntu-22.04 WSL, `/home/monis/minimi-agent`.
-- Initial branch: `codex/planning`.
-- Planning documents only; no application scaffold, dependencies, source, tests, or generated demo.
-- Nine challenge reference repositories are cloned separately under `/home/monis/minimi-reference-repos`; backend, memory, search, lifecycle and UI paths have been selectively inspected; findings are documented in IMPLEMENTATION_AUDIT.md and FEATURE_SELECTION.md. This is source inspection, not an exhaustive or runtime audit. No public GitHub remote has been created.
-- Original input: `C:/Games/MINIMI_COMPLETE_RESEARCH.md`, research dated 11 November 2026.
-- README review: 22 repositories retrieved on 12 November 2026. README statements are author claims, not independently established runtime behavior.
+- Express API foundation and React/Vite readiness interface.
+- Runtime-validated domain contracts, injectable clocks and bounded model/search accounting primitives.
+- SQLite owners, scoped conversations and immutable original message text, with full-text lookup and numbered migrations.
+- Deterministic tests for configuration, budgets, validation, persistence and owner/namespace isolation.
 
-## Working agreement
+Live model/search adapters, run admission and streaming, dated recall, evidence storage, rechecks and the full chat UI are not included in this branch.
 
-Continue research, source inspection and planning until the user finalizes the implementation plan. Do not scaffold or write application code, test code, package manifests or implementation configuration before explicit user approval. Record approval in DECISIONS.md when it arrives; do not infer approval from silence.
+## Verification
 
-The goal is demonstrably stronger recall, comparison correctness and useful response speed on defined workloads. Neither a document review nor a feature list can establish that we are better than all submissions. Public repositories are references; their actual submission or selection status is unknown.
+```bash
+npm run check
+npm run build
+npm start
+```
+
+The check command runs TypeScript validation, deterministic tests and the production build. Tests use temporary databases and scripted transports, with no paid provider calls.
+
+## Local data
+
+The server creates its SQLite database in `data/` by default. Keep this directory and database files out of Git. `DATA_DIR` and other supported settings are documented in `.env.example`. All keys stay on the server.
+
+Internal execution guides and repository research are excluded from this branch's current file list. This branch retains earlier Git history; deleting documents from the current tree does not erase their historical versions.
