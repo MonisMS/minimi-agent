@@ -199,3 +199,9 @@ The run lifecycle should be explicit: received → recalling → generating/sear
 ## 13. Completion definition
 
 The implementation must satisfy the original brief, all safety-critical comparison fixtures, complete shortlist accounting, persistent cross-chat recall and explicit uncertainty. EVALUATION_PLAN.md defines broader quality and speed targets. The final claim should identify measured improvements on a stated suite, not declare universal superiority or imply knowledge of private submissions.
+
+## 14. Source-inspection refinement — 12 November 2026
+
+Read [IMPLEMENTATION_AUDIT.md](IMPLEMENTATION_AUDIT.md) before finalizing this proposal. Nine reference repositories are cloned and selected implementation paths have been inspected. Memory, retained evidence, coverage tracking, comparison-aware prompts and evaluation rubrics are already represented in prior work. The revised differentiator is stronger application-level enforcement: stable per-claim obligations, separate attempt/evidence/comparability/outcome states, evidence-linked typed comparison fields and validated outcomes rendered into the answer. This must be tested against strong references rather than advertised as a unique idea.
+
+The current Divyendra checkout also has semantic/rank-fused recall, conversation completion, bounded original-answer expansion, current-page prefetch and DESIGN.md. Earlier report limitations must not be repeated without the current-source qualification. Source inspection has not produced runtime superiority evidence. Implementation remains unapproved.

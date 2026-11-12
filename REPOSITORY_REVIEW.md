@@ -1,12 +1,12 @@
 # Repository review and source-inspection plan
 
-Reviewed: 12 November 2026. Scope: README material retrieved through Firecrawl from the public repository landing pages, plus the supplied 11 November research report. No repository was installed, executed, cloned or benchmarked in this phase. Some pages included large file trees; README material was separated from page chrome for review. This is a targeted assessment, not an exhaustive audit.
+Reviewed: 12 November 2026. Scope: README material retrieved through Firecrawl from the public repository landing pages, plus the supplied 11 November research report. At the README-only stage no repositories had been cloned or run. Subsequent cloning and selected source inspection are documented in [IMPLEMENTATION_AUDIT.md](IMPLEMENTATION_AUDIT.md); runtime evaluation remains unperformed. Some pages included large file trees; README material was separated from page chrome for review. This is a targeted assessment, not an exhaustive audit.
 
 ## Evidence levels
 
 - R: README retrieved in this session. Describes the author's advertised behavior; does not establish implementation correctness.
 - P: code observation inherited from MINIMI_COMPLETE_RESEARCH.md. Needs fresh source confirmation before we treat it as an established current defect.
-- S: independently traced current source at a recorded commit. Not completed in this phase.
+- S: independently traced source at a recorded commit. Selected paths in nine clones are now documented in IMPLEMENTATION_AUDIT.md; this is not a full audit.
 - X: reproduced execution under documented settings. Not completed in this phase.
 
 The original report contains revision-pinned links. Those are starting points, not necessarily current HEAD. Public names matching the challenge do not establish that a repository was submitted, accepted or shortlisted. No ranking of authors is implied.

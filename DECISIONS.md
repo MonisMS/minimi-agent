@@ -48,12 +48,13 @@ Routine implementation choices can be proposed and documented without repeated p
 - [x] Write detailed architecture, storage, recall, verification, lifecycle and UI plan.
 - [x] Write prioritized clone-and-inspect backlog with specific files and questions.
 - [x] Define evaluation baselines, failure scenarios, metrics and proposed acceptance targets.
-- [ ] Clone prioritized references and complete source-audit worksheets before architecture freeze.
+- [x] Clone all nine challenge references and document selected source traces, pinned revisions and revised differentiation in IMPLEMENTATION_AUDIT.md.
+- [ ] Finish deeper date/async-memory checks and remaining audit questions before architecture freeze.
 - [ ] Confirm original brief and exact current dependency/provider contracts.
 - [ ] Resolve deadline, credentials/budget, model/provider selection procedure and any scope changes.
 - [ ] Review the proposed plan with the user and record explicit approval.
 
-README review and document preparation are complete. The source-audit backlog is planned follow-up research, not represented as completed work. Model/provider pilots need implementation or an agreed external harness, so exact performance-based selection cannot honestly be finalized from README inspection alone. Approve a default candidate plus a measured selection rule at freeze, then allow substitution only within those agreed criteria.
+README review and document preparation are complete. Selected source review is now completed in IMPLEMENTATION_AUDIT.md; remaining deeper audit items are explicitly pending. Model/provider pilots need implementation or an agreed external harness, so exact performance-based selection cannot honestly be finalized from README inspection alone. Approve a default candidate plus a measured selection rule at freeze, then allow substitution only within those agreed criteria.
 
 ## 5. Explicit implementation gate
 
