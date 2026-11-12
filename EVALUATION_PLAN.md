@@ -88,3 +88,22 @@ To claim a demonstrated improvement: pass critical invariants, show a meaningful
 8. After a material change, rerun affected regressions; rerun the full agreed submission checks once the implementation stabilizes.
 
 No evaluation code, fixtures or model calls have been created in this planning phase.
+
+## 8. Integration cases added by the nine-repository synthesis
+
+The 60 reasoning scenarios remain a proposed development/held-out benchmark. Add a separate operational/browser suite so UI and recovery checks do not inflate reasoning accuracy:
+
+1. Delayed extraction retry survives restart and is visible as pending until resolved.
+2. A successful extraction with no memories differs from failed extraction and permits correct retry policy.
+3. Cancelled/partial answers remain viewable as partial but never enter completed factual extraction.
+4. Duplicate client request keys do not create duplicate questions or billable runs.
+5. A late event after switching chats cannot modify the newly selected conversation.
+6. Live and persisted messages reconcile by stable IDs without double rendering.
+7. Board rows, chat summary, arithmetic and chart values agree because they use one outcome record.
+8. All original decision members remain visible despite search failure, filters or retrieval caps.
+9. Missing/incompatible price data cannot become zero-height bars or false savings.
+10. Two observations do not produce a continuous price-history claim.
+11. Forgetting suppresses derived memory after rebuild; deleting a conversation removes scoped indexes/jobs and invalidates dependent references.
+12. Mobile/keyboard evidence inspection, overlay focus, cancellation, reload and labeled demo isolation work.
+
+Add targeted source-regression cases for entity-first-token collisions, post-stream detected contradictions, whole-decision expansion and source references that exist but support a different plan. Freeze the case allocation and update sample counts before running any benchmark. No tests were executed during planning.

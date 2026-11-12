@@ -2,6 +2,8 @@
 
 12 November 2026. Status: DRAFT. The user has authorized repository creation and detailed planning, and explicitly prohibited implementation until the plan is finalized.
 
+> Current proposal: [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md), [FEATURE_SELECTION.md](FEATURE_SELECTION.md), [CHAT_BOARD_PLAN.md](CHAT_BOARD_PLAN.md) and [CONTRACTS_AND_BACKLOG.md](CONTRACTS_AND_BACKLOG.md). These supersede the earlier draft where choices differ. Approval remains NOT GIVEN.
+
 ## 1. Provisional architecture decisions
 
 | Decision | Proposed choice | Alternative / condition to reconsider |
@@ -12,9 +14,9 @@
 | Evidence | Immutable returned content and metadata | URL-only memory cannot reconstruct old support. |
 | Verification | Structured obligations and comparable dimensions | Prompt-only or Markdown-parsed verdicts are weaker enforcement boundaries. |
 | Tools | Only model-callable web_search | Application recall stays internal; no separately callable browser/fetch/memory tool. |
-| Search default | Undecided: Exa or Tavily | Verify current contracts and run the proposed provider pilot after approval; no blanket superiority claim. |
+| Search default | Provisionally Tavily, Exa comparison candidate | Verify current contracts and run the proposed provider pilot after approval; no blanket superiority claim. |
 | Model default | Undecided configurable primary model | Choose after accuracy/latency/cost evidence; avoid unconditional extra planner/critic calls. |
-| UI | Small React/Vite chat with evidence/history inspection | No elaborate product shell or additional feature count race. |
+| UI | React/Vite chat, typed comparison board and evidence/history drawer | Charts only for validated comparable data; one result object drives all views. |
 | Background work | Retryable enrichment; raw recall works immediately | Synchronous extraction only if the latency/correctness tradeoff justifies it. |
 | Scope | Reliable recall and revalidation first | Defer monitoring, MCP, voice, uploads and graph infrastructure. |
 
@@ -49,7 +51,9 @@ Routine implementation choices can be proposed and documented without repeated p
 - [x] Write prioritized clone-and-inspect backlog with specific files and questions.
 - [x] Define evaluation baselines, failure scenarios, metrics and proposed acceptance targets.
 - [x] Clone all nine challenge references and document selected source traces, pinned revisions and revised differentiation in IMPLEMENTATION_AUDIT.md.
-- [ ] Finish deeper date/async-memory checks and remaining audit questions before architecture freeze.
+- [x] Deepen selected date, async-memory, lifecycle, queue, safeguards and UI paths across all nine references; record findings and source links in FEATURE_SELECTION.md.
+- [x] Map reference patterns to our modules, define gap remedies, chat/board behavior, APIs and a 22-task build backlog.
+- [ ] Validate remaining provider/dependency contracts and unresolved source questions before architecture freeze; source review is not exhaustive.
 - [ ] Confirm original brief and exact current dependency/provider contracts.
 - [ ] Resolve deadline, credentials/budget, model/provider selection procedure and any scope changes.
 - [ ] Review the proposed plan with the user and record explicit approval.

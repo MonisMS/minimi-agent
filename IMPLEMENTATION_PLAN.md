@@ -1,4 +1,6 @@
-# Detailed implementation plan
+# Earlier implementation proposal
+
+> Superseded by [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md), version 0.3. This earlier draft is retained as research context.
 
 Version 0.1 — 12 November 2026 — PROPOSED, NOT APPROVED FOR IMPLEMENTATION.
 
