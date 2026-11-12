@@ -1,6 +1,6 @@
 # Minimi agent
 
-A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives and scoped original-history storage (implementation chunks 00–03). It is an incremental checkpoint, not a completed chat agent or final submission.
+A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives, scoped original-history storage and durable run lifecycle (implementation chunks 00–04). It is an incremental checkpoint, not a completed chat agent or final submission.
 
 ## Run locally
 
@@ -21,7 +21,9 @@ Open http://localhost:5173. API readiness is at http://127.0.0.1:3000/api/readin
 - SQLite owners, scoped conversations and immutable original message text, with full-text lookup and numbered migrations.
 - Deterministic tests for configuration, budgets, validation, persistence and owner/namespace isolation.
 
-Live model/search adapters, run admission and streaming, dated recall, evidence storage, rechecks and the full chat UI are not included in this branch.
+Run admission persists the question and run atomically, reconciles request keys, supports linked retries and enforces active-run limits. Terminal updates check version and conversation generation; startup interrupts old active runs without replaying provider work. These primitives are tested directly; run HTTP routes arrive in the next checkpoint.
+
+Live model/search adapters, streaming, dated recall, evidence storage, rechecks and the full chat UI are not included in this branch.
 
 ## Verification
 

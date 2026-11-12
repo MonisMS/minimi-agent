@@ -75,6 +75,55 @@ export const migrations: readonly Migration[] = [
       END;
     `,
   },
+  {
+    id: 2,
+    name: 'runs_and_admission',
+    sql: `
+      CREATE TABLE runs (
+        id TEXT PRIMARY KEY,
+        owner_id TEXT NOT NULL REFERENCES owners(id) ON DELETE CASCADE,
+        namespace TEXT NOT NULL CHECK (namespace IN ('live', 'demo')),
+        conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+        question_id TEXT NOT NULL REFERENCES messages(id) ON DELETE CASCADE,
+        answer_id TEXT,
+        request_key TEXT NOT NULL,
+        normalized_payload_hash TEXT NOT NULL,
+        retry_of_run_id TEXT REFERENCES runs(id) ON DELETE SET NULL,
+        baseline_id TEXT,
+        task_kind TEXT NOT NULL CHECK (task_kind IN ('chat', 'recall', 'research', 'recheck')),
+        state TEXT NOT NULL CHECK (
+          state IN (
+            'received', 'recalling', 'generating', 'researching', 'validating',
+            'completed', 'clarification_required', 'cancelled', 'failed', 'interrupted'
+          )
+        ),
+        version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 0),
+        event_seq INTEGER NOT NULL DEFAULT 0 CHECK (event_seq >= 0),
+        started_at TEXT NOT NULL,
+        acquisition_deadline_at TEXT NOT NULL,
+        deadline_at TEXT NOT NULL,
+        completed_at TEXT,
+        usage_json TEXT NOT NULL,
+        error_code TEXT,
+        result_id TEXT,
+        captured_generation INTEGER NOT NULL,
+        answer_text TEXT,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        UNIQUE (owner_id, namespace, request_key)
+      );
+      CREATE INDEX runs_conversation_idx
+        ON runs(conversation_id, started_at, id);
+      CREATE INDEX runs_owner_idx
+        ON runs(owner_id, namespace, started_at);
+      CREATE UNIQUE INDEX runs_one_active_per_conversation
+        ON runs(conversation_id)
+        WHERE state IN ('received', 'recalling', 'generating', 'researching', 'validating');
+      CREATE INDEX runs_active_idx
+        ON runs(state)
+        WHERE state IN ('received', 'recalling', 'generating', 'researching', 'validating');
+    `,
+  },
 ];
 
 export function applyMigrations(database: DatabaseSync): void {
