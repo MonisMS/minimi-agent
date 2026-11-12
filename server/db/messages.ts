@@ -18,6 +18,7 @@ import { RepositoryNotFoundError } from './errors.js';
 import { runTransaction } from './transaction.js';
 
 export interface AddMessageInput extends Scope {
+  id?: string;
   conversationId: string;
   role: MessageRole;
   originalText: string;
@@ -107,7 +108,7 @@ export function addMessage(database: DatabaseSync, input: AddMessageInput): Mess
   const sourceObservationIds = observationIdsSchema.parse(input.sourceObservationIds ?? []);
 
   const message: Message = {
-    id: randomUUID(),
+    id: input.id ?? randomUUID(),
     conversationId: input.conversationId,
     ownerId: input.ownerId,
     namespace: input.namespace,

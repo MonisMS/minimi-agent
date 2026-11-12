@@ -124,6 +124,22 @@ export const migrations: readonly Migration[] = [
         WHERE state IN ('received', 'recalling', 'generating', 'researching', 'validating');
     `,
   },
+  {
+    id: 3,
+    name: 'run_events',
+    sql: `
+      CREATE TABLE run_events (
+        run_id TEXT NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
+        conversation_id TEXT NOT NULL,
+        seq INTEGER NOT NULL CHECK (seq >= 0),
+        type TEXT NOT NULL,
+        payload_json TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        PRIMARY KEY (run_id, seq)
+      );
+      CREATE INDEX run_events_run_idx ON run_events(run_id, seq);
+    `,
+  },
 ];
 
 export function applyMigrations(database: DatabaseSync): void {
