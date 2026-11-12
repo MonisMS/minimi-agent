@@ -6,16 +6,14 @@ Build a fast conversational agent that recovers what was asked and answered, ret
 
 ## Read these documents
 
-1. [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md): current integrated architecture, gaps addressed, build order and acceptance criteria.
-2. [FEATURE_SELECTION.md](FEATURE_SELECTION.md): which reference supplies each pattern, what we adopt/change/defer, and new source findings.
-3. [CHAT_BOARD_PLAN.md](CHAT_BOARD_PLAN.md): chat workspace, comparison board, evidence drawer, chart eligibility and error/mobile behavior.
-4. [CONTRACTS_AND_BACKLOG.md](CONTRACTS_AND_BACKLOG.md): module boundaries, proposed APIs, state contracts and 22 implementation tasks.
-5. [EVALUATION_PLAN.md](EVALUATION_PLAN.md): controlled baselines, held-out tests and meaningful quality/speed evidence.
-6. [DECISIONS.md](DECISIONS.md): choices, remaining pre-build checks and the explicit user approval gate.
-7. [IMPLEMENTATION_AUDIT.md](IMPLEMENTATION_AUDIT.md): pinned nine-repository inspection, strengths and evidence limits.
-8. [REPOSITORY_REVIEW.md](REPOSITORY_REVIEW.md) and [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): README research and acquisition inventory.
+1. [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md): current version 0.4 end-to-end plan, reduced scope, sequencing and acceptance gates.
+2. [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md): paper walkthrough, 15 design failure conditions, removed features and remaining gaps.
+3. [EVALUATION_PLAN.md](EVALUATION_PLAN.md): evaluation methods; version 0.4 scope corrections in section 9 take precedence.
+4. [DECISIONS.md](DECISIONS.md): current choices, unresolved pre-build inputs and user approval gate.
+5. [FEATURE_SELECTION.md](FEATURE_SELECTION.md) and [IMPLEMENTATION_AUDIT.md](IMPLEMENTATION_AUDIT.md): source evidence and reference influences; not a mandatory feature list.
+6. [REPOSITORY_REVIEW.md](REPOSITORY_REVIEW.md) and [SOURCE_INVENTORY.md](SOURCE_INVENTORY.md): README research and acquisition inventory.
 
-[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) is the earlier proposal, retained for context and superseded by SYNTHESIZED_PLAN.md where choices differ.
+Earlier design context: [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md), [CHAT_BOARD_PLAN.md](CHAT_BOARD_PLAN.md), [CONTRACTS_AND_BACKLOG.md](CONTRACTS_AND_BACKLOG.md) and [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md). Their scope is superseded by version 0.4 where it differs. Planned charts, sliders, standalone dashboard and general memory editing are not first-submission requirements.
 
 ## Current state
 

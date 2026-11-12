@@ -1,8 +1,11 @@
 # Integrated implementation plan from nine reference implementations
 
+> Version 0.4 scope review: [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md) and [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md) take precedence. This document preserves earlier design/source context; its optional and product features are not all approved MVP requirements.
+
+
 Version 0.3 — 12 November 2026 — planning only; implementation approval has not been given.
 
-This is the current authoritative build proposal. It supersedes architectural choices in the earlier IMPLEMENTATION_PLAN.md where they differ. FEATURE_SELECTION.md supplies the source-to-feature mapping; IMPLEMENTATION_AUDIT.md records pinned revisions and evidence limits; CHAT_BOARD_PLAN.md specifies the product interface; EVALUATION_PLAN.md defines comparisons and metrics.
+This was the version 0.3 build proposal and is superseded by version 0.4. It supersedes architectural choices in the earlier IMPLEMENTATION_PLAN.md where they differ. FEATURE_SELECTION.md supplies the source-to-feature mapping; IMPLEMENTATION_AUDIT.md records pinned revisions and evidence limits; CHAT_BOARD_PLAN.md specifies the product interface; EVALUATION_PLAN.md defines comparisons and metrics.
 
 ## 1. What we are building
 

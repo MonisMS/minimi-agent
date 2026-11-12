@@ -1,5 +1,8 @@
 # Module contracts and implementation backlog
 
+> Version 0.4 scope review: [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md) and [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md) take precedence. This document preserves earlier design/source context; its optional and product features are not all approved MVP requirements.
+
+
 Version 0.3 — specifications only. File/module names below are a future map, not files to scaffold before approval. All packages remain subject to SYNTHESIZED_PLAN.md's approval gate.
 
 ## 1. Future responsibility map

@@ -1,5 +1,8 @@
 # Feature selection from all nine challenge implementations
 
+> Version 0.4 scope review: [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md) and [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md) take precedence. This document preserves earlier design/source context; its optional and product features are not all approved MVP requirements.
+
+
 Version 0.3 — 12 November 2026. These are best-fit references among inspected paths, not measured rankings. Source revisions are pinned in IMPLEMENTATION_AUDIT.md. Learn the mechanisms and implement an original integrated design; do not transplant entire repositories or combine incompatible persistence/UI frameworks.
 
 ## Selection matrix

@@ -2,7 +2,7 @@
 
 12 November 2026. Status: DRAFT. The user has authorized repository creation and detailed planning, and explicitly prohibited implementation until the plan is finalized.
 
-> Current proposal: [SYNTHESIZED_PLAN.md](SYNTHESIZED_PLAN.md), [FEATURE_SELECTION.md](FEATURE_SELECTION.md), [CHAT_BOARD_PLAN.md](CHAT_BOARD_PLAN.md) and [CONTRACTS_AND_BACKLOG.md](CONTRACTS_AND_BACKLOG.md). These supersede the earlier draft where choices differ. Approval remains NOT GIVEN.
+> Current proposal: [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md) and [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md), version 0.4. These supersede conflicting earlier scope. Approval remains NOT GIVEN; the latest request authorized a plan-level walkthrough, not implementation.
 
 ## 1. Provisional architecture decisions
 
@@ -16,9 +16,9 @@
 | Tools | Only model-callable web_search | Application recall stays internal; no separately callable browser/fetch/memory tool. |
 | Search default | Provisionally Tavily, Exa comparison candidate | Verify current contracts and run the proposed provider pilot after approval; no blanket superiority claim. |
 | Model default | Undecided configurable primary model | Choose after accuracy/latency/cost evidence; avoid unconditional extra planner/critic calls. |
-| UI | React/Vite chat, typed comparison board and evidence/history drawer | Charts only for validated comparable data; one result object drives all views. |
-| Background work | Retryable enrichment; raw recall works immediately | Synchronous extraction only if the latency/correctness tradeoff justifies it. |
-| Scope | Reliable recall and revalidation first | Defer monitoring, MCP, voice, uploads and graph infrastructure. |
+| UI | React/Vite chat, inline expandable comparison table and evidence/original drawer | No standalone dashboard, charts or scenario sliders in MVP. |
+| Background work | One optional durable indexing-job type; raw recall works immediately | On-demand baseline interpretation is part of the synchronous run budget when structured memory is absent. |
+| Scope | Reliable recall, evidence-linked rechecks and lifecycle correctness first | Also defer charts, scenarios, memory editing/forgetting, profiles, embeddings and archives; keep scoped chat deletion. |
 
 ## 2. Alternatives deliberately deferred
 
@@ -79,3 +79,13 @@ This gate comes directly from the user's instruction: “we will not write a sin
 - One-page DESIGN.md, distinct from this detailed internal plan.
 - One-minute video demonstrating remembered baseline, current recheck and inspectable evidence.
 - Next-week priorities informed by measured failures.
+
+## 7. End-to-end paper review — version 0.4
+
+- [x] Walk through first recommendation, immediate follow-up, five-item recheck, historical recall, revisions and requested launches.
+- [x] Record 15 design failure conditions, including baseline extraction timing, validation/streaming conflict, budget accounting, cancellation races and delete-while-working.
+- [x] Remove unearned MVP features and replace the broad 22-task scope with six delivery stages and explicit acceptance gates.
+- [x] Define one synchronous call ledger and deterministic recheck presentation; separate unsuccessful indexing from a valid empty extraction.
+- [ ] Prove these behaviors through implementation and executable tests after user approval. No runtime test has been run.
+
+Remaining user/environment inputs are deadline, available credentials/provider budget and any hosting requirement. Remaining technical pre-build checks are original brief and exact runtime/model/search contracts. Selection and runtime superiority remain unproven.

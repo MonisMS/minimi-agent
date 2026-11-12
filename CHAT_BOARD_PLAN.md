@@ -1,5 +1,8 @@
 # Chat workspace, comparison board and chart plan
 
+> Version 0.4 scope review: [LEAN_IMPLEMENTATION_PLAN.md](LEAN_IMPLEMENTATION_PLAN.md) and [E2E_DESIGN_REVIEW.md](E2E_DESIGN_REVIEW.md) take precedence. This document preserves earlier design/source context; its optional and product features are not all approved MVP requirements.
+
+
 Version 0.3 — planning only. “Chart board” is covered here as both a chat workspace and an evidence-backed comparison board, with charts only where the data supports them. This is a behavior specification, not an implemented UI or a visual mockup.
 
 ## 1. Primary workspace

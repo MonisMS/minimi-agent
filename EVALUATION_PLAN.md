@@ -107,3 +107,18 @@ The 60 reasoning scenarios remain a proposed development/held-out benchmark. Add
 12. Mobile/keyboard evidence inspection, overlay focus, cancellation, reload and labeled demo isolation work.
 
 Add targeted source-regression cases for entity-first-token collisions, post-stream detected contradictions, whole-decision expansion and source references that exist but support a different plan. Freeze the case allocation and update sample counts before running any benchmark. No tests were executed during planning.
+
+## 9. Version 0.4 scope and end-to-end corrections
+
+LEAN_IMPLEMENTATION_PLAN.md and E2E_DESIGN_REVIEW.md now govern implementation scope. This section supersedes conflicting optional-feature and comparison obligations above.
+
+- No chart, scenario slider, general memory editor/forgetting or embedding tests are MVP delivery requirements because those features were removed/deferred. Retain their earlier cases only as future-extension notes.
+- Keep scoped chat-deletion tests, including active-run cancellation, deletion-generation write guards, job cleanup and dependent evidence/result invalidation.
+- Add immediate recheck before indexing, assistant-proposed vs user-selected revisions, missing historical support, plan-renaming ambiguity and requested-attribute-only coverage cases.
+- Add commit-before-emit, duplicate request reconciliation without new provider calls, one active generation per conversation, cancel/complete race and disconnected-run lookup.
+- Every synchronous extraction, schema repair or targeted support review counts against the same model-call budget. Assert the total, not just main-loop calls.
+- Recheck factual rows must not stream before validation/storage. Ordinary conversational streaming is evaluated separately.
+- Begin comparative execution with internal simple baselines and the strongest relevant runnable reference (Thread). Running all cloned projects is not required; add another only for a concrete unresolved question.
+- Prior numerical speed/quality targets are provisional evaluation targets, never evidence that the architecture achieves them. Freeze applicable denominators, targets, hardware/history size and spend before live runs.
+
+The paper walkthrough is design analysis, not a successful or failed execution of these scenarios. No application or test code was written.
