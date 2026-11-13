@@ -3,6 +3,8 @@ import { SystemClock } from './clock.js';
 import { loadLocalEnv, parseConfig } from './config.js';
 import { closeDatabase, openDatabase } from './db/connection.js';
 import { createApp } from './http/app.js';
+import { createChatExecutor } from './agent/chat.js';
+import { createConfiguredModelTransport } from './model/openai.js';
 import { RunEventWriter } from './runs/events.js';
 import { recoverInterruptedRuns } from './runs/lifecycle.js';
 import { RunAbortRegistry } from './runs/registry.js';
@@ -16,6 +18,12 @@ const database = openDatabase({
 });
 const registry = new RunAbortRegistry();
 const events = new RunEventWriter({ database, clock });
+const modelTransport = config.openaiApiKey && config.openaiModel
+  ? createConfiguredModelTransport(config)
+  : null;
+const executor = modelTransport
+  ? createChatExecutor({ database, clock, config, model: modelTransport })
+  : null;
 const interrupted = recoverInterruptedRuns(database, clock, registry);
 if (interrupted > 0) {
   console.log(`Marked ${interrupted} active run(s) from a previous process as interrupted.`);
@@ -27,7 +35,7 @@ const app = createApp({
   clock,
   registry,
   events,
-  executor: null,
+  executor,
 });
 
 const server = app.listen(config.port, '127.0.0.1', () => {
