@@ -1,6 +1,6 @@
 # Minimi agent
 
-A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives, scoped original-history storage, durable run lifecycle, reconnectable HTTP/event transport and deterministic date resolution (implementation chunks 00–06). It is an incremental checkpoint, not a completed chat agent or final submission.
+A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives, scoped original-history storage, durable run lifecycle, reconnectable HTTP/event transport, deterministic date resolution and original-history retrieval (implementation chunks 00–07). It is an incremental checkpoint, not a completed chat agent or final submission.
 
 ## Run locally
 
@@ -27,7 +27,9 @@ Scoped HTTP routes provide conversations, saved messages, run admission/state/ca
 
 The date resolver uses an injected reference time and IANA timezone, returning local labels, exclusive UTC windows and explicit ambiguity/unsupported phrases. Tests cover missing years, leap dates, ambiguous weekdays and 23/25-hour daylight-saving days. It is an internal primitive; original-history retrieval is not connected yet.
 
-Live model/search adapters, original-history retrieval, evidence storage, rechecks and the full chat UI are not included in this branch.
+Internal retrieval queries scoped original messages by calendar window, full-text terms and recent conversational context. It reports candidate bounds/ambiguity and expands complete saved exchanges rather than relying only on snippets. It is not yet connected to a live chat coordinator.
+
+Live model/search adapters, evidence storage, rechecks and the full chat UI are not included in this branch. Checks for newly published chunks 07 onward have not been rerun during publication.
 
 ## Verification
 
