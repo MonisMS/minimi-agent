@@ -140,6 +140,45 @@ export const migrations: readonly Migration[] = [
       CREATE INDEX run_events_run_idx ON run_events(run_id, seq);
     `,
   },
+  {
+    id: 4,
+    name: 'source_observations',
+    sql: `
+      CREATE TABLE source_observations (
+        id TEXT PRIMARY KEY,
+        owner_id TEXT NOT NULL REFERENCES owners(id) ON DELETE CASCADE,
+        namespace TEXT NOT NULL CHECK (namespace IN ('live', 'demo')),
+        conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+        run_id TEXT NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
+        query_id TEXT NOT NULL,
+        original_url TEXT NOT NULL,
+        safe_canonical_url TEXT NOT NULL,
+        title TEXT NOT NULL,
+        exact_evidence_text TEXT NOT NULL CHECK (length(exact_evidence_text) <= 8000),
+        content_hash TEXT NOT NULL CHECK (length(content_hash) = 64),
+        text_truncated INTEGER NOT NULL CHECK (text_truncated IN (0, 1)),
+        retrieved_at TEXT NOT NULL,
+        provider_capture_at TEXT,
+        published_at TEXT,
+        effective_at TEXT,
+        effective_at_span_json TEXT,
+        provider TEXT NOT NULL,
+        freshness_requested TEXT,
+        freshness_metadata_json TEXT,
+        FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE,
+        FOREIGN KEY (run_id) REFERENCES runs(id) ON DELETE CASCADE
+      );
+      CREATE INDEX source_observations_scope_idx
+        ON source_observations(owner_id, namespace, id);
+      CREATE INDEX source_observations_run_idx
+        ON source_observations(run_id, id);
+      CREATE TRIGGER source_observations_no_update
+        BEFORE UPDATE ON source_observations
+        BEGIN
+          SELECT RAISE(ABORT, 'source observations are immutable');
+        END;
+    `,
+  },
 ];
 
 export function applyMigrations(database: DatabaseSync): void {
