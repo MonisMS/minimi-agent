@@ -14,6 +14,7 @@ import { buildConversationInput, classifyConversation } from './route.js';
 import type { RunExecution, RunExecutor } from '../runs/executor.js';
 import { createTavilyObservationRegistrar, TavilySearchProvider } from '../search/tavily.js';
 import type { Scope } from '../db/conversations.js';
+import { executeHistoricalRecheck } from './recheck.js';
 
 export interface ChatExecutorOptions {
   database: DatabaseSync;
@@ -69,7 +70,10 @@ export function createChatExecutor(options: ChatExecutorOptions): RunExecutor {
       const route = classifyConversation(question.originalText);
 
       if (run.taskKind === 'recheck' || route.historicalRecheck) {
-        execution.clarify('Historical recommendation rechecks are not available in this version. I can recall saved conversations or research a new question.');
+        await executeHistoricalRecheck({
+          database: options.database, clock: options.clock, config: options.config,
+          model: options.model, searchProvider: options.searchProvider,
+        }, execution);
         return;
       }
 

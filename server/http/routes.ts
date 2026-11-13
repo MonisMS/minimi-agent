@@ -16,12 +16,14 @@ import {
   messageViewSchema,
   messagesResponseSchema,
   runViewSchema,
+  verificationResultResponseSchema,
   type CancelRunResponse,
   type CreateRunResponse,
 } from '../../shared/api.js';
 import {
   idSchema,
   isTerminalRunState,
+  type Namespace,
 } from '../../shared/domain.js';
 import type { AppConfig } from '../config.js';
 import type { Clock } from '../clock.js';
@@ -31,7 +33,10 @@ import {
   listConversations,
 } from '../db/conversations.js';
 import { deleteConversationPayload } from '../db/deletion.js';
-import { listMessages } from '../db/messages.js';
+import { getMessage, listMessages } from '../db/messages.js';
+import { getDecisionSnapshot } from '../db/decisions.js';
+import { listObservations } from '../db/evidence.js';
+import { getVerificationResult } from '../db/verifications.js';
 import {
   getRun,
   listActiveRunIdsForConversation,
@@ -66,12 +71,13 @@ export interface ApiDependencies {
   registry: RunAbortRegistry;
   events: RunEventWriter;
   executor: RunExecutor | null;
+  namespace: Namespace;
 }
 
-function liveScope(res: Response): Scope {
+function requestScope(res: Response, namespace: Namespace): Scope {
   return {
     ownerId: requestOwnerId(res),
-    namespace: 'live',
+    namespace,
   };
 }
 
@@ -121,13 +127,13 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   );
 
   router.get('/conversations', (_req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const conversations = listConversations(dependencies.database, scope);
     res.json(conversationsResponseSchema.parse({ conversations }));
   });
 
   router.post('/conversations', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const body = createConversationRequestSchema.parse(req.body ?? {});
     const conversation = createConversation(dependencies.database, dependencies.clock, {
       ...scope,
@@ -137,7 +143,7 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   });
 
   router.get('/conversations/:conversationId/messages', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const conversationId = req.params.conversationId;
     const messages = listMessages(
       dependencies.database,
@@ -157,7 +163,7 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   });
 
   router.delete('/conversations/:conversationId', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const conversationId = req.params.conversationId;
     const activeRunIds = listActiveRunIdsForConversation(
       dependencies.database,
@@ -178,7 +184,7 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   });
 
   router.post('/runs', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const body = createRunRequestSchema.parse(req.body);
     const admitted = admitRun(
       {
@@ -214,14 +220,34 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   });
 
   router.get('/runs/:runId', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const run = getRun(dependencies.database, scope, req.params.runId);
     if (!run) throw new RunNotFoundError();
     res.json(runViewSchema.parse({ ...run, answerText: run.answerText }));
   });
 
+  router.get('/results/:resultId', (req, res) => {
+    const scope = requestScope(res, dependencies.namespace);
+    const result = getVerificationResult(dependencies.database, scope, req.params.resultId);
+    if (!result) throw new RunNotFoundError('Verification result was not found');
+    const baseline = result.baselineSnapshotId
+      ? getDecisionSnapshot(dependencies.database, scope, result.baselineSnapshotId)
+      : null;
+    const baselineOriginal = baseline
+      ? getMessage(dependencies.database, scope, baseline.originalMessageId)
+      : null;
+    const observationIds = [...new Set([
+      ...result.obligations.flatMap((item) => item.observationIds),
+      ...result.outcomes.flatMap((item) => item.supportingObservationIds),
+      ...(baselineOriginal?.sourceObservationIds ?? []),
+    ])];
+    const resultRun = getRun(dependencies.database, scope, result.runId);
+    const observations = listObservations(dependencies.database, scope, observationIds, resultRun?.conversationId);
+    res.json(verificationResultResponseSchema.parse({ result, baselineSnapshot: baseline, baselineOriginal, observations }));
+  });
+
   router.get('/runs/:runId/events', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     streamRunEvents({
       req,
       res,
@@ -234,7 +260,7 @@ export function createApiRouter(dependencies: ApiDependencies): Router {
   });
 
   router.post('/runs/:runId/cancel', (req, res) => {
-    const scope = liveScope(res);
+    const scope = requestScope(res, dependencies.namespace);
     const body = cancelRunRequestSchema.parse(req.body ?? {});
     const result = cancelRun(
       dependencies.database,

@@ -32,6 +32,7 @@ import {
   ServiceUnavailableError,
 } from './errors.js';
 import type { RunAbortRegistry } from './registry.js';
+import { classifyConversation } from '../agent/route.js';
 
 export interface AdmissionInput extends Scope {
   conversationId: string;
@@ -242,7 +243,9 @@ export function admitRun(
         requestKey: parsed.requestKey,
         normalizedPayloadHash: payloadHash,
         retryOfRunId,
-        taskKind: 'chat',
+        taskKind: parsed.baselineId || classifyConversation(question.originalText).historicalRecheck
+          ? 'recheck'
+          : 'chat',
         state: 'received',
         version: 1,
         eventSeq: 0,

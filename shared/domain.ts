@@ -456,6 +456,23 @@ export const verificationOutcomeSchema = z.object({
   reasonCodes: z.array(reasonCodeSchema),
   supportingObservationIds: z.array(idSchema),
   summary: z.string().max(1000),
+  priceTotals: z.object({
+    baseline: z.object({
+      quantity: quantitySchema,
+      monthlyEquivalent: decimalStringSchema,
+      annualCommitment: decimalStringSchema.nullable(),
+      monthlyEquivalentLabel: z.string().max(200),
+      annualCommitmentLabel: z.string().max(200).nullable(),
+    }).nullable(),
+    current: z.object({
+      quantity: quantitySchema,
+      monthlyEquivalent: decimalStringSchema,
+      annualCommitment: decimalStringSchema.nullable(),
+      monthlyEquivalentLabel: z.string().max(200),
+      annualCommitmentLabel: z.string().max(200).nullable(),
+    }).nullable(),
+    monthlyDelta: decimalStringSchema.nullable(),
+  }).optional(),
 });
 export type VerificationOutcome = z.infer<typeof verificationOutcomeSchema>;
 

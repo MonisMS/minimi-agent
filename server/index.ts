@@ -53,7 +53,6 @@ let closing = false;
 function shutdown(signal: string): void {
   if (closing) return;
   closing = true;
-  registry.abortAll();
   console.log(`Received ${signal}; shutting down.`);
   server.close((error) => {
     if (error) {

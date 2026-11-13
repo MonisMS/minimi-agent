@@ -7,6 +7,7 @@ import type { Clock } from '../clock.js';
 import type { RunEventWriter } from '../runs/events.js';
 import type { RunExecutor } from '../runs/executor.js';
 import type { RunAbortRegistry } from '../runs/registry.js';
+import type { Namespace } from '../../shared/domain.js';
 import { apiErrorHandler, createApiRouter } from './routes.js';
 
 export interface AppDependencies {
@@ -18,6 +19,7 @@ export interface AppDependencies {
   registry?: RunAbortRegistry;
   events?: RunEventWriter;
   executor?: RunExecutor | null;
+  namespace?: Namespace;
 }
 
 const FALLBACK_HTML = `<!doctype html>
@@ -62,6 +64,7 @@ export function createApp(deps: AppDependencies): Express {
         registry,
         events,
         executor: deps.executor ?? null,
+        namespace: deps.namespace ?? 'live',
       }),
     );
   }

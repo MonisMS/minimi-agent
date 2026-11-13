@@ -5,10 +5,13 @@ import {
   idSchema,
   messageSchema,
   messageRoleSchema,
+  decisionSnapshotSchema,
   nonNegativeIntegerSchema,
   runSchema,
   runStateSchema,
   runUsageSchema,
+  sourceObservationSchema,
+  verificationResultSchema,
 } from './domain.js';
 
 export const readinessSchema = z.object({
@@ -126,6 +129,14 @@ export type MessagesResponse = z.infer<typeof messagesResponseSchema>;
 
 export const runUsageViewSchema = runUsageSchema;
 export type RunUsageView = z.infer<typeof runUsageViewSchema>;
+
+export const verificationResultResponseSchema = z.object({
+  result: verificationResultSchema,
+  baselineSnapshot: decisionSnapshotSchema.nullable(),
+  baselineOriginal: messageSchema.nullable(),
+  observations: z.array(sourceObservationSchema),
+});
+export type VerificationResultResponse = z.infer<typeof verificationResultResponseSchema>;
 
 export const answerStateViewSchema = answerStateSchema;
 export type AnswerStateView = z.infer<typeof answerStateViewSchema>;

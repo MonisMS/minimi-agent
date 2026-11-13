@@ -179,6 +179,55 @@ export const migrations: readonly Migration[] = [
         END;
     `,
   },
+  {
+    id: 5,
+    name: 'scoped_decision_snapshots',
+    sql: `
+      CREATE TABLE decision_snapshots (
+        id TEXT PRIMARY KEY,
+        owner_id TEXT NOT NULL REFERENCES owners(id) ON DELETE CASCADE,
+        namespace TEXT NOT NULL CHECK (namespace IN ('live', 'demo')),
+        conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+        original_message_id TEXT NOT NULL REFERENCES messages(id) ON DELETE CASCADE,
+        state TEXT NOT NULL CHECK (state IN ('assistant_proposed', 'user_shortlisted', 'user_selected')),
+        revision INTEGER NOT NULL CHECK (revision > 0),
+        supersedes_id TEXT REFERENCES decision_snapshots(id) ON DELETE CASCADE,
+        snapshot_json TEXT NOT NULL,
+        validated_at TEXT,
+        created_at TEXT NOT NULL,
+        UNIQUE (owner_id, namespace, conversation_id, revision, id)
+      );
+      CREATE INDEX decision_snapshots_scope_idx
+        ON decision_snapshots(owner_id, namespace, conversation_id, revision);
+      CREATE TRIGGER decision_snapshots_no_update
+        BEFORE UPDATE ON decision_snapshots
+        BEGIN
+          SELECT RAISE(ABORT, 'decision snapshots are immutable');
+        END;
+    `,
+  },
+  {
+    id: 6,
+    name: 'verification_results',
+    sql: `
+      CREATE TABLE verification_results (
+        id TEXT PRIMARY KEY,
+        owner_id TEXT NOT NULL REFERENCES owners(id) ON DELETE CASCADE,
+        namespace TEXT NOT NULL CHECK (namespace IN ('live', 'demo')),
+        conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+        run_id TEXT NOT NULL UNIQUE REFERENCES runs(id) ON DELETE CASCADE,
+        baseline_snapshot_id TEXT REFERENCES decision_snapshots(id) ON DELETE CASCADE,
+        result_json TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX verification_results_scope_idx
+        ON verification_results(owner_id, namespace, conversation_id, created_at);
+      CREATE TRIGGER verification_results_no_update
+        BEFORE UPDATE ON verification_results BEGIN
+          SELECT RAISE(ABORT, 'verification results are immutable');
+        END;
+    `,
+  },
 ];
 
 export function applyMigrations(database: DatabaseSync): void {

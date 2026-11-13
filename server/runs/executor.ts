@@ -5,6 +5,7 @@ import {
   type Message,
   type RunState,
   type RunUsage,
+  type VerificationResult,
 } from '../../shared/domain.js';
 import type { Clock } from '../clock.js';
 import type { Scope } from '../db/conversations.js';
@@ -21,6 +22,7 @@ import {
 import type { RunAbortRegistry } from './registry.js';
 import { addMessage } from '../db/messages.js';
 import { runTransaction } from '../db/transaction.js';
+import { insertVerificationResult } from '../db/verifications.js';
 
 function answerTimestamp(clock: Clock, question: Message): string {
   return new Date(Math.max(clock.now().getTime(), Date.parse(question.createdAt) + 1)).toISOString();
@@ -41,6 +43,7 @@ export interface RunExecution {
     resultId?: string | null;
     usage?: RunUsage;
     sourceObservationIds?: string[];
+    verificationResult?: VerificationResult;
   }): RunRecord;
   clarify(answerText: string): RunRecord;
   fail(errorCode: string): RunRecord;
@@ -116,6 +119,17 @@ export function createRunExecution(
       const answerId = current.answerId;
       events.flushDelta(scope, current.id);
       current = runTransaction(database, () => {
+        if (input.verificationResult) {
+          if (input.resultId !== input.verificationResult.id || input.verificationResult.runId !== current.id) {
+            throw new Error('Verification result does not match the completing run');
+          }
+          insertVerificationResult(database, {
+            ...scope,
+            conversationId: current.conversationId,
+            result: input.verificationResult,
+            createdAt: clock.now().toISOString(),
+          });
+        }
         addMessage(database, {
           ...scope,
           id: answerId,
