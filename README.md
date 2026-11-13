@@ -1,6 +1,6 @@
 # Minimi agent
 
-A TypeScript chat-agent project. This branch contains the foundation, shared domain contracts, run-budget primitives, scoped original-history storage, durable run lifecycle, reconnectable HTTP/event transport, deterministic date resolution, original-history retrieval, immutable evidence storage and bounded web acquisition (implementation chunks 00–09). It is an incremental checkpoint, not a completed chat agent or final submission.
+A TypeScript chat-agent project. This checkpoint contains the foundation, shared domain contracts, run-budget primitives, scoped original-history storage, durable run lifecycle, reconnectable HTTP/event transport, deterministic date resolution, original-history retrieval, immutable evidence storage, bounded web acquisition and Responses API model transport (implementation chunks 00–10). It is not a completed chat agent or final submission.
 
 ## Run locally
 
@@ -33,7 +33,9 @@ Evidence storage retains bounded exact source text, separate observation/publica
 
 The Tavily adapter, single web_search tool schema and fair search scheduler are present as internal services. Acquisition uses shared query/batch budgets, bounded concurrency, explicit error outcomes and observation registration; production startup does not wire these services into chat yet.
 
-The model adapter, chat coordinator, rechecks and the full chat UI are not included in this branch. Checks for newly published chunks 07 onward have not been rerun during publication.
+The OpenAI Responses adapter supports streamed text, custom tool continuations and structured output with explicit model configuration and disabled automatic retries. Refusal, incomplete response, invalid structured output and cancellation remain distinct outcomes. The adapter is available for later coordinator wiring; production still has no executor at this checkpoint.
+
+The chat coordinator, rechecks and full chat UI are not included. Tests, typechecks and builds for newly published chunks 07–10 were intentionally not rerun during publication. No live provider calls were made.
 
 ## Verification
 
