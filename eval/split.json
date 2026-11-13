@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "frozenBeforeExecution": true,
+  "cases": [
+    { "id": "F01-F05", "split": "regression", "testTitle": "runs F01–F05 through search, extraction, comparison, and atomic result persistence" },
+    { "id": "F12", "split": "regression", "testTitle": "recalls saved dated questions without exposing web search" },
+    { "id": "F19", "split": "regression", "testTitle": "uses bounded search for current facts, treats excerpts as data" },
+    { "id": "GC01", "split": "smoke", "testTitle": "allows ordinary conversation without forcing a search request" },
+    { "id": "NR01", "split": "smoke", "testTitle": "uses bounded search for current facts" },
+    { "id": "F34", "split": "protocol", "testTitle": "keeps fictional demo conversations out of the default live API" }
+  ],
+  "heldOutCases": [],
+  "note": "Expected assertions remain in tests and are evaluated after execution. They are not supplied to the agent input. No held-out model-quality set is claimed."
+}

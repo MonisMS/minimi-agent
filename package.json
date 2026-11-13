@@ -10,6 +10,8 @@
     "dev": "node scripts/dev.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest",
+    "test:e2e": "npm run build && playwright test",
+    "eval:offline": "tsx eval/offline.ts",
     "build": "tsc -p tsconfig.build.json && vite build",
     "start": "node dist/server/index.js",
     "check": "npm run typecheck && npm test -- --run && npm run build"
@@ -27,6 +29,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "1.56.1",
     "@types/express": "5.0.6",
     "@types/luxon": "3.7.6",
     "@types/node": "24.19.2",
